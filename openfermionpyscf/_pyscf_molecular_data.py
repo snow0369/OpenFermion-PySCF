@@ -48,6 +48,13 @@ class PyscfMolecularData(MolecularData):
             self._canonical_orbitals = scf.mo_coeff
         return self._canonical_orbitals
 
+    @canonical_orbitals.setter
+    def canonical_orbitals(self, value):
+        if self._canonical_orbitals is None:
+            self._canonical_orbitals = value
+        else:
+            raise AttributeError("can't set attribute")
+
     @property
     def overlap_integrals(self):
         """Overlap integrals for AO basis."""
@@ -55,6 +62,13 @@ class PyscfMolecularData(MolecularData):
             scf = self._pyscf_data.get('scf', None)
             self._overlap_integrals = scf.get_ovlp()
         return self._overlap_integrals
+
+    @overlap_integrals.setter
+    def overlap_integrals(self, value):
+        if self._overlap_integrals is None:
+            self._overlap_integrals = value
+        else:
+            raise AttributeError("can't set attribute")
 
     @property
     def one_body_integrals(self):
@@ -66,6 +80,13 @@ class PyscfMolecularData(MolecularData):
             h_core = scf.get_hcore()
             self._one_body_integrals = reduce(numpy.dot, (mo.T, h_core, mo))
         return self._one_body_integrals
+
+    @one_body_integrals.setter
+    def one_body_integrals(self, value):
+        if self._one_body_integrals is None:
+            self._one_body_integrals = value
+        else:
+            raise AttributeError("can't set attribute")
 
     @property
     def two_body_integrals(self):
@@ -86,6 +107,13 @@ class PyscfMolecularData(MolecularData):
             self._two_body_integrals = numpy.asarray(
                 eri.transpose(0, 2, 3, 1), order='C')
         return self._two_body_integrals
+
+    @two_body_integrals.setter
+    def two_body_integrals(self, value):
+        if self._two_body_integrals is None:
+            self._two_body_integrals = value
+        else:
+            raise AttributeError("can't set attribute")
 
     @property
     def cisd_one_rdm(self):
@@ -108,6 +136,14 @@ class PyscfMolecularData(MolecularData):
 # pyscf one_rdm is computed as dm1[p,q] = <a^\dagger_q a_p>
             self._cisd_one_rdm = rdm1.T
         return self._cisd_one_rdm
+
+    @cisd_one_rdm.setter
+    def cisd_one_rdm(self, value):
+        if self._cisd_one_rdm is None:
+            self._cisd_one_rdm = value
+        else:
+            raise AttributeError("can't set attribute")
+
 
     @property
     def cisd_two_rdm(self):
@@ -134,6 +170,13 @@ class PyscfMolecularData(MolecularData):
 #       tbt[p,q,r,s] = <a^\dagger_p a^\dagger_q a_r a_s>.
             self._cisd_two_rdm = rdm2.transpose(0, 2, 3, 1)
         return self._cisd_two_rdm
+
+    @cisd_two_rdm.setter
+    def cisd_two_rdm(self, value):
+        if self._cisd_two_rdm is None:
+            self._cisd_two_rdm = value
+        else:
+            raise AttributeError("can't set attribute")
 
     @property
     def ccsd_one_rdm(self):
@@ -228,6 +271,10 @@ class PyscfMolecularData(MolecularData):
             self._fci_one_rdm = fci.make_rdm1(fci.ci, norb, nelec).T
         return self._fci_one_rdm
 
+    @fci_one_rdm.setter
+    def fci_one_rdm(self, value):
+        self._fci_one_rdm = value
+
     @property
     def fci_two_rdm(self):
         r"""A 4-dimension array for FCI two-particle density matrix in the MO
@@ -248,6 +295,13 @@ class PyscfMolecularData(MolecularData):
             self._fci_two_rdm = fci_rdm2.transpose(0, 2, 3, 1)
         return self._fci_two_rdm
 
+    @fci_two_rdm.setter
+    def fci_two_rdm(self, value):
+        if self._fci_two_rdm is None:
+            self._fci_two_rdm = value
+        else:
+            raise AttributeError("can't set attribute")
+
     @property
     def ccsd_single_amps(self):
         r"""A 2-dimension array t[a,i] for CCSD single excitation amplitudes
@@ -266,6 +320,13 @@ class PyscfMolecularData(MolecularData):
 
         return self._ccsd_single_amps
 
+    @ccsd_single_amps.setter
+    def ccsd_single_amps(self, value):
+        if self._ccsd_single_amps is None:
+            self._ccsd_single_amps = value
+        else:
+            raise AttributeError("can't set attribute")
+
     @property
     def ccsd_double_amps(self):
         r"""A 4-dimension array t[a,i,b,j] for CCSD double excitation amplitudes
@@ -283,3 +344,11 @@ class PyscfMolecularData(MolecularData):
             self._ccsd_double_amps[no:,:no,no:,:no] = .5 * t2.transpose(2,0,3,1)
 
         return self._ccsd_double_amps
+
+    @ccsd_double_amps.setter
+    def ccsd_double_amps(self, value):
+        if self._ccsd_double_amps is None:
+            self._ccsd_double_amps = value
+        else:
+            raise AttributeError("can't set attribute")
+
